@@ -12,18 +12,25 @@ do
     fi
 done
 
-# 设置代理服务器地址
-PROXY="http://192.168.31.183:7890"
-# export https_proxy=http://192.168.31.183:7890 http_proxy=http://192.168.31.183:7890 all_proxy=socks5://192.168.31.183:7890
-# 在每个虚拟机上设置代理
 for i in {1..5}
 do
-    echo "set network proxy on node$i"
-    multipass exec node$i -- bash -c "echo 'export http_proxy=$PROXY' >> ~/.bashrc"
-    multipass exec node$i -- bash -c "echo 'export https_proxy=$PROXY' >> ~/.bashrc"
-    multipass exec node$i -- bash -c "echo 'export all_proxy=$PROXY' >> ~/.bashrc"
-    multipass exec node$i -- bash -c "source ~/.bashrc"
+  multipass exec node$i -- bash -c "echo 'node$i.opengear.local' | sudo tee /etc/hostname"
+  multipass exec node$i -- bash -c "sudo hostname -F /etc/hostname"
+  multipass exec node$i -- bash -c "echo '127.0.1.1 node$i.opengear.local' | sudo tee -a /etc/hosts"
 done
+
+# 设置代理服务器地址
+PROXY="http://192.168.31.183:7890"
+## export https_proxy=http://192.168.31.183:7890 http_proxy=http://192.168.31.183:7890 all_proxy=socks5://192.168.31.183:7890
+# 在每个虚拟机上设置代理
+# for i in {1..5}
+# do
+#     echo "set network proxy on node$i"
+#     multipass exec node$i -- bash -c "echo 'export http_proxy=$PROXY' >> ~/.bashrc"
+#     multipass exec node$i -- bash -c "echo 'export https_proxy=$PROXY' >> ~/.bashrc"
+#     multipass exec node$i -- bash -c "echo 'export all_proxy=$PROXY' >> ~/.bashrc"
+#     multipass exec node$i -- bash -c "source ~/.bashrc"
+# done
 
 # 配置本地DNS，使得可以通过域名访问每个节点
 # echo "$IP1 node1" | sudo tee -a /etc/hosts
