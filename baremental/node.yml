@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    node_count: 5
+  tasks:
+    - name: Check and launch multipass instances
+      command: "{{ item }}"
+      register: result
+      changed_when: "'node created' in result.stdout"
+      loop:
+        - "if multipass info k{{ loop.index }} &> /dev/null; then echo 'node{{ loop.index }} exists'; else multipass launch --name k{{ loop.index }} --cpus 2 --mem 4G -d 100G --network bridged && multipass mount /Users/swa-c/code/kubespray/multipass k{{ loop.index }}:/home/ubuntu/rlocal && echo 'node{{ loop.index }} created'; fi"
+      loop_control:
+        index_var: loop.index
+      with_sequence: start=1 end={{ node_count }}
