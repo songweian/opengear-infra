@@ -1,0 +1,15 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: my-ceph-cluster
+  namespace: rook-ceph
+spec:
+  dataDirHostPath: /var/lib/rook
+  mon:
+    count: 3
+  storage:
+    useAllNodes: true
+    useAllDevices: false
+    deviceFilter: sdb
+    config:
+      storeType: bluestore

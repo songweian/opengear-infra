@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  ceph:
+    image: ceph/daemon
+    command: demo
+    environment:
+      - CEPH_DEMO_UID=demo
+      - CEPH_DEMO_ACCESS_KEY=access_key
+      - CEPH_DEMO_SECRET_KEY=secret_key
+      - CEPH_DEMO_BUCKET=bucket
+      - NETWORK_AUTO_DETECT=4
+      - MON_IP=127.0.0.1
+      - CEPH_PUBLIC_NETWORK=0.0.0.0/0
+      - CEPH_DEMO_PORT=8080
+      - DEBUG=verbose
+    volumes:
+      - ceph-data:/var/lib/ceph
+      - /etc/ceph:/etc/ceph
+    ports:
+      - 8080:8080
+      - 5000:5000
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse:/dev/fuse
+
+volumes:
+  ceph-data:
