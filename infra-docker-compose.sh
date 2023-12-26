@@ -1,0 +1,36 @@
+# ./infra-docker-compose.sh mysql up -d
+# ./infra-docker-compose.sh nacos down
+# ./infra-docker-compose.sh mongodb up -d
+# ./infra-docker-compose.sh redis up -d
+# ./infra-docker-compose.sh nexus up -d
+# ./infra-docker-compose.sh gitlib up -d
+# ./infra-docker-compose.sh jenkins up -d
+# ./infra-docker-compose.sh sonarqube up -d
+# ./infra-docker-compose.sh minio up -d
+# ./infra-docker-compose.sh kafka up -d
+# ./infra-docker-compose.sh rocketmq up -d
+# ./infra-docker-compose.sh rabbitmq up -d
+# ./infra-docker-compose.sh zookeeper up -d
+# ./infra-docker-compose.sh elasticsearch up -d
+# ./infra-docker-compose.sh kibana up -d
+# ./infra-docker-compose.sh logstash up -d
+# ./infra-docker-compose.sh grafana up -d
+# ./infra-docker-compose.sh prometheus up -d
+# ./infra-docker-compose.sh alertmanager up -d
+# ./infra-docker-compose.sh node-exporter up -d
+# ./infra-docker-compose.sh cadvisor up -d
+# ./infra-docker-compose.sh ceph up -d
+# ./infra-docker-compose.sh ceph-mgr up -d
+# ./infra-docker-compose.sh ceph-mon up -d
+# ./infra-docker-compose.sh ceph-osd up -d
+# ./infra-docker-compose.sh ceph-rgw up -d
+# ./infra-docker-compose.sh ceph-mds up -d
+# ./infra-docker-compose.sh ceph-dashboard up -d
+# ./infra-docker-compose.sh ceph-prometheus up -d
+# ./infra-docker-compose.sh ceph-node-exporter up -d
+# ./infra-docker-compose.sh ceph-alertmanager up -d
+# ./infra-docker-compose.sh ceph-grafana up -d
+# ./infra-docker-compose.sh ceph-rbd-mirror up -d
+# ./infra-docker-compose.sh ceph-rbd-nbd up -d
+# ./infra-docker-compose.sh ceph-rbd-nbd-client up -d
+docker-compose -f mysql-docker-compose.yml
