@@ -33,4 +33,4 @@
 # ./infra-docker-compose.sh ceph-rbd-mirror up -d
 # ./infra-docker-compose.sh ceph-rbd-nbd up -d
 # ./infra-docker-compose.sh ceph-rbd-nbd-client up -d
-docker-compose -f mysql-docker-compose.yml
+docker-compose -f ./mysql/docker-compose.yml
