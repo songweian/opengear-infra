@@ -1,10 +1,10 @@
-version: "2"
+version: "3.8"
 
 services:
   nexus:
     image: sonatype/nexus3:3.63.0
-	env_file:
-	  - .env
+    env_file:
+      - .env
     volumes:
       - "./nexus-data:/nexus-data"
     ports:
@@ -12,4 +12,4 @@ services:
 networks:
   default:
     external:
-      name: infra_network  
+      name: infra_network
