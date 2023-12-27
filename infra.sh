@@ -34,6 +34,18 @@
 # ./infra-docker-compose.sh ceph-rbd-nbd up -d
 # ./infra-docker-compose.sh ceph-rbd-nbd-client up -d
 # if mysql/.env not exits then create 
+# data_dir; if data dir not exits create it
+if [ ! -d ./data ]; then
+    mkdir -p ./data
+    chmod 777 -R data
+fi
+
+# network; if docker-compose infra_network not extis then create
+export infra_network="infra_network"
+if [ ! "$(docker network ls | grep $infra_network)" ]; then
+    docker network create $infra_network
+fi
+# env; 
 if [ ! -f ./mysql/.env ]; then
     touch ./mysql/.env
 fi
@@ -43,12 +55,10 @@ fi
 if [ ! -f ./postgres/.env ]; then
     touch ./postgres/.env
 fi
-# if docker-compose infra_network not extis then create
-export infra_network="infra_network"
-if [ ! "$(docker network ls | grep $infra_network)" ]; then
-    docker network create $infra_network
-fi
 
+# create_service $1 $2
+# $1 service type
+# $2 docker-compose project name
 create_service() {
     service_name="$1"
     project_name="$2"
@@ -77,6 +87,8 @@ create_service() {
             ;;
     esac
 }
+# delete_service $1
+# $1 docker-compose project name
 delete_service() {
     project_name="$1"
     docker-compose --project-name $project_name down 
@@ -101,23 +113,3 @@ case "$command" in
         exit 1
         ;;
 esac
-
-
-# Usage examples:
-# create_service mysql
-# create_service nacos nacos
-# create_service postgres postgres
-if [ "$1" = "delete" ]; then
-    if [ "$2" = "mysql" ]; then
-        if [ "$3" = "mysql-nas" ]; then
-            docker volume rm mysql-nas
-        fi
-    fi
-fi
-if [ "$1" = "ls" ]; then
-    if [ "$2" = "mysql" ]; then
-        if [ "$3" = "mysql-nas" ]; then
-            docker volume ls | grep mysql-nas
-        fi
-    fi
-fi
