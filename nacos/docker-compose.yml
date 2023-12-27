@@ -5,6 +5,7 @@ services:
     image: nacos/nacos-server:v2.3.0
     container_name: nacos
     env_file:
+      - .env.default
       - .env
     volumes:
       - ../data/${COMPOSE_PROJECT_NAME}/logs/:/home/nacos/logs

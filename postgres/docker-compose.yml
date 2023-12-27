@@ -4,10 +4,9 @@ services:
     image: postgres
     restart: always
     pull_policy: never
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      POSTGRES_DB: postgres
+    env_file:
+      - .env.default
+      - .env
     ports:
       - 5432:5432
     volumes:

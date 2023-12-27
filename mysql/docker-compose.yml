@@ -5,13 +5,11 @@ services:
     image: mysql:8.0
     container_name: ${COMPOSE_PROJECT_NAME}_mysql
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: test
-      MYSQL_USER: nas_mysql
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 3306:3306
+    env_file:
+      - .env.default
+      - .env
     volumes:
       - ../data/${COMPOSE_PROJECT_NAME}/mysql-data:/var/lib/mysql
 networks:

@@ -33,4 +33,91 @@
 # ./infra-docker-compose.sh ceph-rbd-mirror up -d
 # ./infra-docker-compose.sh ceph-rbd-nbd up -d
 # ./infra-docker-compose.sh ceph-rbd-nbd-client up -d
-docker-compose -f ./mysql/docker-compose.yml
+# if mysql/.env not exits then create 
+if [ ! -f ./mysql/.env ]; then
+    touch ./mysql/.env
+fi
+if [ ! -f ./nacos/.env ]; then
+    touch ./nacos/.env
+fi
+if [ ! -f ./postgres/.env ]; then
+    touch ./postgres/.env
+fi
+# if docker-compose infra_network not extis then create
+export infra_network="infra_network"
+if [ ! "$(docker network ls | grep $infra_network)" ]; then
+    docker network create $infra_network
+fi
+
+create_service() {
+    service_name="$1"
+    project_name="$2"
+    case "$service_name" in
+        mysql)
+            if [ -z "$project_name" ]; then
+                project_name="mysql"
+            fi
+            docker-compose --project-name $project_name -f "./mysql/docker-compose.yml" up -d 
+            ;;
+        nacos)
+            if [ -z "$project_name" ]; then
+                project_name="nacos"
+            fi
+            docker-compose --project-name $project_name -f "./nacos/docker-compose.yml" up -d
+            ;;
+        postgres)
+            if [ -z "$project_name" ]; then
+                project_name="postgres"
+            fi
+            docker-compose --project-name $project_name -f "./postgres/docker-compose.yml" up -d
+            ;;
+        *)
+            echo "Usage: $0 {mysql|nacos|postgres} [project_name]"
+            exit 1
+            ;;
+    esac
+}
+delete_service() {
+    project_name="$1"
+    docker-compose --project-name $project_name down 
+}
+
+# ./infra create mysql mysql-nas
+# ./infra delete mysql-nas
+# ./infra ls
+command="$1"
+case "$command" in
+    create)
+        create_service $2 $3
+        ;;
+    delete)
+        delete_service $2
+        ;;
+    ls)
+        docker-compose ls
+        ;;
+    *)
+        echo "Usage: $0 {create|delete|ls} {mysql|nacos|postgres} [project_name]"
+        exit 1
+        ;;
+esac
+
+
+# Usage examples:
+# create_service mysql
+# create_service nacos nacos
+# create_service postgres postgres
+if [ "$1" = "delete" ]; then
+    if [ "$2" = "mysql" ]; then
+        if [ "$3" = "mysql-nas" ]; then
+            docker volume rm mysql-nas
+        fi
+    fi
+fi
+if [ "$1" = "ls" ]; then
+    if [ "$2" = "mysql" ]; then
+        if [ "$3" = "mysql-nas" ]; then
+            docker volume ls | grep mysql-nas
+        fi
+    fi
+fi
