@@ -99,7 +99,11 @@ create_service() {
             fi
             docker-compose --project-name $project_name -f "./rocketmq/docker-compose.yml" up -d
             ;;
-        kakfa)
+        kafka)
+            if [ -z "$project_name" ]; then
+                project_name="kakfa"
+            fi
+            docker-compose --project-name $project_name -f "./kafka/docker-compose.yml" up -d
             ;;
         *)
             echo "Usage: $0 {mysql|nacos|postgres} [project_name]"

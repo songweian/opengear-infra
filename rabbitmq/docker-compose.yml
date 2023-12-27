@@ -1,0 +1,50 @@
+version: '3.5'
+services:
+  rabbit1:
+    image: rabbitmq:3-management
+    hostname: rabbit1
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    labels:
+      - "AUTODEPLOY=true"
+    volumes:
+      - rabbitmq_cluster:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_cluster
+
+  rabbit2:
+    image: rabbitmq:3-management
+    hostname: rabbit2
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    labels:
+      - "AUTODEPLOY=true"
+    volumes:
+      - rabbitmq_cluster:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_cluster
+
+  rabbit3:
+    image: rabbitmq:3-management
+    hostname: rabbit3
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    labels:
+      - "AUTODEPLOY=true"
+    volumes:
+      - rabbitmq_cluster:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_cluster
+
+volumes:
+  rabbitmq_cluster:
+
+networks:
+  rabbitmq_cluster:
+    name: rabbitmq_cluster
