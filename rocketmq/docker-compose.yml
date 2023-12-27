@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  rocketmq_namesrv1:
+    image: apache/rocketmq:5.1.4
+    container_name: rocketmq_namesrv1
+    command: mqnamesrv
+    ports:
+      - 9876:9876
+
+  rocketmq_namesrv2:
+    image: apache/rocketmq:5.1.4
+    container_name: rocketmq_namesrv2
+    command: mqnamesrv
+    ports:
+      - 9877:9876
+
+  rocketmq_broker1:
+    image: apache/rocketmq:5.1.4
+    container_name: rocketmq_broker1
+    command: mqbroker -n rocketmq_namesrv1:9876;rocketmq_namesrv2:9877
+    depends_on:
+      - rocketmq_namesrv1
+      - rocketmq_namesrv2
+
+  rocketmq_broker2:
+    image: apache/rocketmq:5.1.4
+    container_name: rocketmq_broker2
+    command: mqbroker -n rocketmq_namesrv1:9876;rocketmq_namesrv2:9877
+    depends_on:
+      - rocketmq_namesrv1
+      - rocketmq_namesrv2
+
+  rocketmq_broker3:
+    image: apache/rocketmq:5.1.4
+    container_name: rocketmq_broker3
+    command: mqbroker -n rocketmq_namesrv1:9876;rocketmq_namesrv2:9877
+    depends_on:
+      - rocketmq_namesrv1
+      - rocketmq_namesrv2
+
+  dashboard:
+    image: apacherocketmq/rocketmq-dashboard:1.0.0
+    container_name: rocketmq_dashboard
+    ports:
+      - 8080:8080
+    environment:
+      - "JAVA_OPTS=-Drocketmq.config.namesrvAddr=rocketmq_namesrv1:9876;rocketmq_namesrv2:9876"
+    depends_on:
+      - rocketmq_namesrv1
+      - rocketmq_namesrv2
+networks:
+  default:
+    external:
+      name: infra_network

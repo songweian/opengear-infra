@@ -81,6 +81,26 @@ create_service() {
             fi
             docker-compose --project-name $project_name -f "./postgres/docker-compose.yml" up -d
             ;;
+        redis-cluster)
+            if [ -z "$project_name" ]; then
+                project_name="redis-cluster"
+            fi
+            docker-compose --project-name $project_name -f "./redis-cluster/docker-compose.yml" up -d
+            ;;
+        redis)
+            if [ -z "$project_name" ]; then
+                project_name="redis"
+            fi
+            docker-compose --project-name $project_name -f "./redis/docker-compose.yml" up -d
+            ;;
+        rocketmq)
+            if [ -z "$project_name" ]; then
+                project_name="rocketmq"
+            fi
+            docker-compose --project-name $project_name -f "./rocketmq/docker-compose.yml" up -d
+            ;;
+        kakfa)
+            ;;
         *)
             echo "Usage: $0 {mysql|nacos|postgres} [project_name]"
             exit 1
