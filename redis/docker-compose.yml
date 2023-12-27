@@ -1,0 +1,15 @@
+# standalone redis for docker-compose.yml
+version: "3.8"
+services:
+  redis:
+    image: redis:6.0.9-alpine
+    container_name: redis-standalone
+    ports:
+      - 6379:6379
+    volumes:
+      - ../data/${COMPOSE_PROJECT_NAME}/redis-data:/data
+    command: redis-server --appendonly yes
+networks:
+  default:
+    external:
+      name: infra_network
