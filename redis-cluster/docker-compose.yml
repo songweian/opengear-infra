@@ -6,7 +6,7 @@ services:
     ports:
       - "7000-7005:7000-7005"
     volumes:
-      - ./redis-cluster:/data
+      - ./redis-cluster-data:/data
     command: redis-server /data/redis.conf
     container_name: redis-cluster
     restart: always
