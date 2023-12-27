@@ -11,3 +11,7 @@ services:
       - 5433:5432
     volumes:
       - ../data/${COMPOSE_PROJECT_NAME}/postgres-data:/var/lib/postgresql/data
+networks:
+  default:
+    external:
+      name: infra_network

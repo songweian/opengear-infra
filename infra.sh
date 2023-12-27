@@ -108,6 +108,9 @@ case "$command" in
     ls)
         docker-compose ls
         ;;
+    info)
+        docker inspect -f '{{ index .Config.Labels "com.docker.compose.project" }}' $2
+        ;;
     *)
         echo "Usage: $0 {create|delete|ls} {mysql|nacos|postgres} [project_name]"
         exit 1
