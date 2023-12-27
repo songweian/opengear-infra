@@ -1,0 +1,12 @@
+# docker compose 6 node redis cluster
+version: "3.8"
+services:
+  redis-cluster:
+    image: grokzen/redis-cluster:7.0.7
+    ports:
+      - "7000-7005:7000-7005"
+    volumes:
+      - ./redis-cluster:/data
+    command: redis-server /data/redis.conf
+    container_name: redis-cluster
+    restart: always
